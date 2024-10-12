@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 
+    - primary meta tags
+  -->
+  <title>Horizon Auto Spa</title>
+  <!-- 
+    - favicon
+  -->
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.svg">
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Mulish&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - material icon font
+  -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,0" />
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <!-- 
+    - preload images
+  -->
+  <link rel="preload" as="image" href="./assets/images/hero-banner.png">
+  <link rel="preload" as="image" href="./assets/images/hero-bg.jpg">
+
+</head>
+
+<body>
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header">
+    <div class="container">
+
+      <a href="index.html" class="logo">
+        <img src="./assets/images/logo.png" width="128" height="63" alt="autofix home">
+      </a>
+
+      <nav class="navbar" data-navbar>
+        <button class="navbar-close-btn">X</button>
+        <ul class="navbar-list">
+
+          <li>
+            <a href="index.html" class="navbar-link">Home</a>
+          </li>
+
+          <li>
+            <a href="#" class="navbar-link">About</a>
+          </li>
+
+          <li>
+            <a href="feature.html" class="navbar-link">Feature</a>
+          </li>
+
+          <li>
+            <a href="service.html" class="navbar-link">Services</a>
+          </li>
+
+          <li>
+            <a href="contact.html" class="navbar-link">Contact</a>
+          </li>
+
+          <!-- Notification Icon -->
+          <li class="notification-icon">
+            <i class="fas fa-bell" id="notification-icon"></i>
+            <div class="notification-dropdown" id="notification-dropdown"></div>
+          </li>
+
+          <!-- Dynamic Profile/Login Icon -->
+          <li class="auth-icon">
+            <!-- This area will be populated by JavaScript -->
+          </li>
+
+        </ul>
+      </nav>
+
+
+
+      <button class="nav-toggle-btn" aria-label="toggle menu" data-nav-toggler>
+        <span class="nav-toggle-icon icon-1"></span>
+        <span class="nav-toggle-icon icon-2"></span>
+        <span class="nav-toggle-icon icon-3"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+
+
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+      <section class="hero has-bg-image" aria-label="home" style="background-image: url('./assets/images/hero-bg.png')">
+        <div class="container">
+
+          <div class="hero-content">
+
+            <p class="section-subtitle :dark">Transform Your Ride with Advanced Protection!</p>
+
+            <h1 class="h1 section-title">Graphene Coating</h1>
+
+            <p class="section-text">
+              <strong class="discount">Enjoy 40% Off + ₱1000 Discount<br><br></strong>
+              Graphene coating is the latest innovation in automotive protection, offering superior durability, hydrophobic properties, and a brilliant shine that lasts. It creates a strong barrier against harsh environmental elements, UV rays, and contaminants, keeping your car in pristine condition.
+            </p>
+
+            <a href="contact.html" class="btn">
+              <span class="span">BOOK NOW</span>
+
+              <span class="material-symbols-rounded">arrow_forward</span>
+            </a>
+
+          </div>
+
+          <figure class="hero-banner" style="--width: 1228; --height: 789;">
+            <img src="./assets/images/hero-banner.png" width="1228" height="789" alt="red motor vehicle"
+              class="move-anim">
+          </figure>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #SERVICE
+      -->
+
+      <section class="section service has-bg-image" aria-labelledby="service-label"
+        style="background-image: url('./assets/images/service-bg.jpg')">
+        <div class="container">
+
+          <p class="section-subtitle :light" id="service-label">Our services</p>
+
+          <h2 class="h2 section-title">We Provide Great Services For your Vehicle</h2>
+
+          <ul class="service-list">
+
+            <li>
+              <div class="service-card">
+
+                <figure class="card-icon">
+                  <img src="./assets/images/services-1.png" width="110" height="110" loading="lazy" alt="Car/Motorcycle Wash">
+                </figure>
+
+                <h3 class="h3 card-title">Car/Motorcycle Wash</h3>
+
+                <p class="card-text">
+                  Keep your car or motorcycle spotless with our gentle yet effective wash treatments.
+                </p>
+
+                <a href="./services/carwash.html" class="btn-link">Read more</a>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="service-card">
+
+                <figure class="card-icon">
+                  <img src="./assets/images/services-2.png" width="110" height="110" loading="lazy" alt="Detailing">
+                </figure>
+
+                <h3 class="h3 card-title">Detailing</h3>
+
+                <p class="card-text">
+                  Restore your vehicle's shine inside and out with our thorough detailing service.
+                </p>
+
+                <a href="./services/detailing.html" class="btn-link">Read more</a>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="service-card">
+
+                <figure class="card-icon">
+                  <img src="./assets/images/services-3.png" width="110" height="110" loading="lazy" alt="Acid Rain Removal">
+                </figure>
+
+                <h3 class="h3 card-title">Acid Rain Removal</h3>
+
+                <p class="card-text">
+                  Protect your car's paint from damage with our specialized acid rain removal service.
+                </p>
+
+                <a href="./services/acidrain.html" class="btn-link">Read more</a>
+
+              </div>
+            </li>
+
+            <li>
+              <div class="service-card">
+
+                <figure class="card-icon">
+                  <img src="./assets/images/services-4.png" width="110" height="110" loading="lazy"
+                    alt="Ceramic/Graphene Coating">
+                </figure>
+
+                <h3 class="h3 card-title">Ceramic/Graphene Coating</h3>
+
+                <p class="card-text">
+                  Enhance durability and shine with our advanced coating options.
+                </p>
+
+                <a href="./services/coating.html" class="btn-link">Read more</a>
+
+              </div>
+            </li>
+
+            <li class="service-banner">
+              <img src="./assets/images/services-5.png" width="646" height="380" loading="lazy" alt="Red Car"
+                class="move-anim">
+            </li>
+
+            <li>
+              <div class="service-card">
+
+                <figure class="card-icon">
+                  <img src="./assets/images/services-6.png" width="110" height="110" loading="lazy"
+                    alt="Ceramic Tint">
+                </figure>
+
+                <h3 class="h3 card-title">Ceramic Tint</h3>
+
+                <p class="card-text">
+                  Improve comfort and privacy with our professional car tinting services.
+                </p>
+
+                <a href="./services/tint.html" class="btn-link">Read more</a>
+
+              </div>
+            </li>
+
+          </ul>
+
+          <a href="service.html" class="btn">
+            <span class="span">View All Services</span>
+
+            <span class="material-symbols-rounded">arrow_forward</span>
+          </a>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #ABOUT
+      -->
+
+      <section class="section about has-before" aria-labelledby="about-label">
+        <div class="container">
+
+          <figure class="about-banner">
+            <img src="./assets/images/about-banner.png" width="540" height="540" loading="lazy"
+              alt="vehicle repire equipments" class="w-100">
+          </figure>
+
+          <div class="about-content">
+
+            <p class="section-subtitle :dark">About Us</p>
+
+            <h2 class="h2 section-title">We’re Commited to Meet the quality</h2>
+
+            <p class="section-text">
+              At Horizon Auto Spa, we are committed to delivering exceptional quality and service in car care. With a passion for perfection and a dedication to customer satisfaction, we strive to exceed expectations with every vehicle we touch. From luxurious interiors to pristine exteriors, we leave no stone unturned in our pursuit of perfection.
+            </p>
+
+            
+
+            <ul class="about-list">
+
+              <li class="about-item">
+                <p>
+                  <strong class="display-1 strong">99.9%</strong> Satisfied Clients
+                </p>
+              </li>
+
+              <li class="about-item">
+                <p>
+                  <strong class="display-1 strong">100%</strong>  
+                  Premium Materials
+                </p>
+              </li>
+
+              <li class="about-item">
+                <p>
+                  <strong class="display-1 strong">2+</strong> Months in market
+                </p>
+              </li>
+
+              <li class="about-item">
+                <p>
+                  <strong class="display-1 strong">99%</strong> Projects completed
+                </p>
+              </li>
+
+            </ul>
+            <br>
+            <p class="section-text" style="color: crimson; font-weight: bolder;" >
+              Where passion and precision ignite.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+
+
+
+      <!-- 
+        - #WORK
+      -->
+
+      <section class="section work" aria-labelledby="work-label">
+        <div class="container">
+
+          <p class="section-subtitle :light" id="work-label">Our Work</p>
+
+          <h2 class="h2 section-title">Latest projects we have done</h2>
+
+          <ul class="has-scrollbar">
+            <li class="scrollbar-item">
+              <div class="work-card">
+
+                <figure class="card-banner img-holder" style="--width: 350; --height: 406;">
+                  <img src="./assets/images/work-2.jpg" width="350" height="406" loading="lazy" alt="Car Wash"
+                    class="img-cover">
+                </figure>
+
+                <div class="card-content">
+                  <p class="card-subtitle">Auto Enhance</p>
+
+                  <h3 class="h3 card-title">Car Wash</h3>
+
+                  <a href="services/carwash.html" class="card-btn">
+                    <span class="material-symbols-rounded">arrow_forward</span>
+                  </a>
+                </div>
+
+              </div>
+            </li>
+
+            <li class="scrollbar-item">
+              <div class="work-card">
+
+                <figure class="card-banner img-holder" style="--width: 350; --height: 406;">
+                  <img src="./assets/images/work-1.jpg" width="350" height="406" loading="lazy" alt="Graphene Coating"
+                    class="img-cover">
+                </figure>
+
+                <div class="card-content">
+                  <p class="card-subtitle">Auto Enhance</p>
+
+                  <h3 class="h3 card-title">Graphene Coating</h3>
+
+                  <a href="services/coating.html" class="card-btn">
+                    <span class="material-symbols-rounded">arrow_forward</span>
+                  </a>
+                </div>
+
+              </div>
+            </li>
+
+
+            <li class="scrollbar-item">
+              <div class="work-card">
+
+                <figure class="card-banner img-holder" style="--width: 350; --height: 406;">
+                  <img src="./assets/images/work-3.jpg" width="350" height="406" loading="lazy" alt="Window Tint"
+                    class="img-cover">
+                </figure>
+
+                <div class="card-content">
+                  <p class="card-subtitle">Auto Enhance</p>
+
+                  <h3 class="h3 card-title">Window Tint</h3>
+
+                  <a href="services/tint.html" class="card-btn">
+                    <span class="material-symbols-rounded">arrow_forward</span>
+                  </a>
+                </div>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+    </article>
+    <button id="scrollToTopBtn" class="scroll-to-top-btn">↑</button>
+  </main>
+
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+
+    <div class="footer-top section">
+      <div class="container">
+
+        <div class="footer-brand">
+
+          <a href="#" class="logo">
+            <img src="./assets/images/logo.png" width="128" height="63" alt="autofix home">
+          </a>
+
+          <p class="footer-text">
+            Experience the Horizon Auto Spa difference firsthand. Whether you need a comprehensive detailing service, effective car wash, advanced coating, or professional tinting, we are here to elevate your driving experience.
+          </p>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="https://www.facebook.com/profile.php?id=100095279225997" class="social-link">
+                <img src="./assets/images/facebook.svg" alt="facebook">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <img src="./assets/images/instagram.svg" alt="instagram">
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="h3">Opening Hours</p>
+          </li>
+
+          <li>
+            <p class="p">Open Daily</p>
+
+            <span class="span">9:00am - 8:00pm</span>
+          </li>
+
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="h3">Contact Info</p>
+          </li>
+
+          <li>
+            <a href="tel:+01234567890" class="footer-link">
+              <span class="material-symbols-rounded">call</span>
+
+              <span class="span">+63 991 355 6764</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.facebook.com/messages/t/108073325704972" class="footer-link">
+              <span class="material-symbols-rounded">mail</span>
+
+              <span class="span">Messenger</span>
+            </a>
+          </li>
+
+          <li>
+            <address class="footer-link address">
+              <span class="material-symbols-rounded">location_on</span>
+
+              <span class="span">229 Dona Agripina Rd, Angeles, Pampanga</span>
+            </address>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <img src="./assets/images/footer-shape-3.png" width="637" height="173" loading="lazy" alt="Shape"
+        class="shape shape-3 move-anim">
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+
+        <img src="./assets/images/footer-shape-2.png" width="778" height="335" loading="lazy" alt="Shape"
+          class="shape shape-2">
+
+        <img src="./assets/images/footer-shape-1.png" width="805" height="652" loading="lazy" alt="Red Car"
+          class="shape shape-1 move-anim">
+
+      </div>
+    </div>
+
+  </footer>
+
+
+
+
+
+  <!--  
+    - custom js link
+  -->
+
+  <script src="./assets/js/scripts.js"></script>
+
+</body>
+
+</html>

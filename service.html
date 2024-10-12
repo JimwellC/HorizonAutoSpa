@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 
+    - primary meta tags
+  -->
+  <title>Horizon Auto Spa</title>
+  <!-- 
+    - favicon
+  -->
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.svg">
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Mulish&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - material icon font
+  -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,0" />
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- 
+    - preload images
+  -->
+  <link rel="preload" as="image" href="./assets/images/hero-banner.png">
+  <link rel="preload" as="image" href="./assets/images/hero-bg.png">
+
+</head>
+
+<body style="background: url('./assets/images/hero-bg.png') no-repeat fixed;">
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header">
+    <div class="container">
+
+      <a href="index.html" class="logo">
+        <img src="./assets/images/logo.png" width="128" height="63" alt="autofix home">
+      </a>
+
+      <nav class="navbar" data-navbar>
+        <button class="navbar-close-btn">X</button>
+        <ul class="navbar-list">
+
+          <li>
+            <a href="index.html" class="navbar-link">Home</a>
+          </li>
+
+          <li>
+            <a href="#" class="navbar-link">About</a>
+          </li>
+
+          <li>
+            <a href="feature.html" class="navbar-link">Feature</a>
+          </li>
+
+          <li>
+            <a href="service.html" class="navbar-link">Services</a>
+          </li>
+
+          <li>
+            <a href="contact.html" class="navbar-link">Contact</a>
+          </li>
+
+          <!-- Notification Icon -->
+          <li class="notification-icon">
+            <i class="fas fa-bell" id="notification-icon"></i>
+            <div class="notification-dropdown" id="notification-dropdown"></div>
+          </li>
+
+          <!-- Dynamic Profile/Login Icon -->
+          <li class="auth-icon">
+            <!-- This area will be populated by JavaScript -->
+          </li>
+
+        </ul>
+      </nav>
+
+
+
+      <button class="nav-toggle-btn" aria-label="toggle menu" data-nav-toggler>
+        <span class="nav-toggle-icon icon-1"></span>
+        <span class="nav-toggle-icon icon-2"></span>
+        <span class="nav-toggle-icon icon-3"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <main>
+    <article>
+          <section>
+            <div id="cards">
+                <div class="card">
+                  <div class="card-content">
+                    <img src="assets/images/1services.png" alt="carwash">
+                    <h2 class="service-text-red">Car Wash</h2>
+                    <p>Keep your car or motorcycle spotless with our gentle yet effective wash treatments.</p>
+                    <a href="./services/carwash.html">
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </div>
+    
+                <div class="card">
+                    <div class="card-content">
+                      <img src="assets/images/2services.png" alt="detailing">
+                      <h2 class="service-text-red">Detailing</h2>
+                      <p>Restore your vehicle's shine inside and out with our thorough detailing service.</p>
+                      <a href="./services/detailing.html">
+                        <span>Read More</span>
+                      </a>
+                    </div>
+                  </div>
+    
+                  <div class="card">
+                    <div class="card-content">
+                      <img src="assets/images/3services.png" alt="acid rain removal">
+                      <h2 class="service-text-red">Acid Rain Removal</h2>
+                      <p>Protect your car's paint from damage with our specialized acid rain removal service.</p>
+                      <a href="./services/acidrain.html">
+                        <span>Read More</span>
+                      </a>
+                    </div>
+                  </div>
+    
+                  <div class="card">
+                    <div class="card-content">
+                      <img src="assets/images/4services.png" alt="ceramic/graphene coating">
+                      <h2 class="service-text-red">Ceramic/Graphene Coating</h2>
+                      <p>Enhance durability and shine with our advanced coating options.</p>
+                      <a href="./services/coating.html">
+                        <span>Read More</span>
+                      </a>
+                    </div>
+                  </div>
+    
+                  <div class="card">
+                    <div class="card-content">
+                      <img src="assets/images/5services.png" alt="ceramic tint">
+                      <h2 class="service-text-red">Ceramic Tinting</h2>
+                      <p>Improve comfort and privacy with our professional car tinting services.</p>
+                      <a href="./services/tint.html">
+                        <span>Read More</span>
+                      </a>
+                    </div>
+                  </div>
+              </div>
+          </section>
+    </article>
+    <button id="scrollToTopBtn" class="scroll-to-top-btn">↑</button>
+  </main>
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+
+    <div class="footer-top section">
+      <div class="container">
+
+        <div class="footer-brand">
+
+          <a href="#" class="logo">
+            <img src="./assets/images/logo.png" width="128" height="63" alt="autofix home">
+          </a>
+
+          <p class="footer-text">
+            Experience the Horizon Auto Spa difference firsthand. Whether you need a comprehensive detailing service, effective car wash, advanced coating, or professional tinting, we are here to elevate your driving experience.
+          </p>
+
+          <ul class="social-list">
+
+            <li>
+              <a href="https://www.facebook.com/profile.php?id=100095279225997" class="social-link">
+                <img src="./assets/images/facebook.svg" alt="facebook">
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="social-link">
+                <img src="./assets/images/instagram.svg" alt="instagram">
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="h3">Opening Hours</p>
+          </li>
+
+          <li>
+            <p class="p">Open Daily</p>
+
+            <span class="span">9:00am - 8:00pm</span>
+          </li>
+
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="h3">Contact Info</p>
+          </li>
+
+          <li>
+            <a href="tel:+01234567890" class="footer-link">
+              <span class="material-symbols-rounded">call</span>
+
+              <span class="span">+63 991 355 6764</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.facebook.com/messages/t/108073325704972" class="footer-link">
+              <span class="material-symbols-rounded">mail</span>
+
+              <span class="span">Messenger</span>
+            </a>
+          </li>
+
+          <li>
+            <address class="footer-link address">
+              <span class="material-symbols-rounded">location_on</span>
+
+              <span class="span">229 Dona Agripina Rd, Angeles, Pampanga</span>
+            </address>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <img src="./assets/images/footer-shape-3.png" width="637" height="173" loading="lazy" alt="Shape"
+        class="shape shape-3 move-anim">
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+
+        <img src="./assets/images/footer-shape-2.png" width="778" height="335" loading="lazy" alt="Shape"
+          class="shape shape-2">
+
+        <img src="./assets/images/footer-shape-1.png" width="805" height="652" loading="lazy" alt="Red Car"
+          class="shape shape-1 move-anim">
+
+      </div>
+    </div>
+
+  </footer>
+
+
+
+
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="./assets/js/scripts.js"></script>
+
+</body>
+
+</html>
