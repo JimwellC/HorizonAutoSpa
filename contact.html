@@ -281,12 +281,14 @@
 
           <!-- Customer Review Section -->
           <div class="customer-review">
-            <label for="review">Tell us more about your experience:</label>
-            <textarea id="review" name="review" rows="4" placeholder="Write your feedback here..."></textarea>
+            <form id="review-form">
+              
+              <label for="review">Tell us more about your experience:</label>
+              <textarea id="review" name="review" rows="4" placeholder="Write your feedback here..." required></textarea>
+              
+              <button type="submit" class="submit-review">Submit Feedback</button>
+            </form>
           </div>
-
-          <button type="submit" class="submit-review">Submit Feedback</button>
-        </div>
         
         
       
@@ -405,7 +407,7 @@
   <!-- 
     - custom js link
   -->
-
+  <script type="module" src="./assets/js/horizonfirebase.js"></script>
   <script src="./assets/js/scripts.js"></script>
 
 </body>

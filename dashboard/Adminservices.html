@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Mulish&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/dashStyles.css">
+  <style>
+    .service-form { margin: 20px; }
+    .service-table { width: 100%; margin: 20px; }
+    .service-table th, .service-table td { padding: 10px; text-align: left; }
+    .action-btn { padding: 5px 10px; cursor: pointer; }
+
+    /* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Mulish', sans-serif;
+  display: flex;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+
+/* Service Form */
+.service-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
+.service-form label {
+  font-weight: 600;
+  color: #2c3e50;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.service-form input,
+.service-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+}
+
+.service-form button {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.service-form button:hover {
+  background-color: #2ecc71;
+}
+
+/* Services Table */
+.service-table {
+  width: 100%;
+  background-color: white;
+  border-collapse: collapse;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.service-table th, .service-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.service-table th {
+  background-color: #34495e;
+  color: white;
+  font-weight: 600;
+}
+
+.service-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.service-table td {
+  color: #2c3e50;
+}
+
+.action-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit {
+  background-color: #2980b9;
+}
+
+.edit:hover {
+  background-color: #3498db;
+}
+
+.delete {
+  background-color: #e74c3c;
+}
+
+.delete:hover {
+  background-color: #c0392b;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="services.html">Services</a>
+    <a href="bookings.html">Bookings</a>
+    <a href="customers.html">Customers</a>
+    <a href="report.html">Reports</a>
+  </div>
+
+  <div class="main-content">
+    <h1>Admin Dashboard</h1>
+  <div>
+    <h2>Add New Service</h2>
+    <form id="service-form">
+      <input type="text" id="newServiceName" placeholder="Service Name" required>
+      <input type="text" id="newServiceDescription" placeholder="Service Description" required>
+      <input type="file" id="newServiceLogo" accept="image/*" required>
+      <button type="submit">Add Service</button>
+    </form>
+  </div>
+
+  <div>
+    <h2>Manage Existing Services</h2>
+    <div id="serviceList"></div> <!-- This will contain the list of services to edit or delete -->
+  </div>
+
+  <script type="module" src="../assets/js/horizonfirebase.js"></script>
+  <script type="module" src="../assets/js/admin.js"></script>r
+</body>
+</html>

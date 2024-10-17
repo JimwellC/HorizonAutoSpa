@@ -250,6 +250,8 @@ const initSlider = () => {
     });
 });
 
+
+
   
   document.addEventListener('DOMContentLoaded', function() {
     const calendarElement = document.getElementById('calendar');
@@ -612,4 +614,6 @@ window.addEventListener('click', function(event) {
     popup.style.display = 'none';
   }
 });
+
+
 
