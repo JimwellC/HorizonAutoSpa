@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/css/dashStyles.css">
+  <title>Admin Dashboard - Bookings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Mulish&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="adminservices.html">Services</a>
+    <a href="bookings.html">Bookings</a>
+    <a href="customers">Customers</a>
+    <a href="report.html">Reports</a>
+  
+  </div>
+
+
+  <div class="main-content">
+    <div class="main-header">
+      <h1>Bookings Management</h1>
+      <div class="profile">
+        <i class="fas fa-user-circle" style="font-size: 40px;"></i>
+        <span>Admin</span>
+      </div>
+    </div>
+
+    <!-- Bookings Table -->
+    <table class="service-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Customer Name</th>
+          <th>Service</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#01</td>
+          <td>Chris</td>
+          <td>Acid Rain Removal</td>
+          <td>2024-10-14</td>
+          <td>09:00 AM</td>
+          <td>&#8369 1000</td>
+          <td>Confirmed</td>
+          <td>
+            <button class="action-btn edit">Edit</button>
+            <button class="action-btn cancel">Cancel</button>
+          </td>
+        </tr>
+        <tr>
+          <td>#02</td>
+          <td>Maria</td>
+          <td>Car Wash</td>
+          <td>2024-10-15</td>
+          <td>11:00 AM</td>
+          <td>&#8369 1500</td>
+          <td>Pending</td>
+          <td>
+            <button class="action-btn edit">Edit</button>
+            <button class="action-btn cancel">Cancel</button>
+          </td>
+        </tr>
+        <tr>
+          <td>#03</td>
+          <td>Michael</td>
+          <td>Detailing</td>
+          <td>2024-10-16</td>
+          <td>02:00 PM</td>
+          <td>&#8369 5800</td>
+          <td>Completed</td>
+          <td>
+            <button class="action-btn edit">Edit</button>
+            <button class="action-btn cancel">Cancel</button>
+          </td>
+        </tr>
+        <tr>
+          <td>#04</td>
+          <td>Danny</td>
+          <td>Window Tinting</td>
+          <td>2024-10-17</td>
+          <td>10:00 AM</td>
+          <td>&#8369 4500</td>
+          <td>Confirmed</td>
+          <td>
+            <button class="action-btn edit">Edit</button>
+            <button class="action-btn cancel">Cancel</button>
+          </td>
+        </tr>
+        <tr>
+          <td>#05</td>
+          <td>George</td>
+          <td>Ceramic Coating</td>
+          <td>2024-10-18</td>
+          <td>03:00 PM</td>
+          <td>&#8369 11500</td>
+          <td>Confirmed</td>
+          <td>
+            <button class="action-btn edit">Edit</button>
+            <button class="action-btn cancel">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+
+</html>
