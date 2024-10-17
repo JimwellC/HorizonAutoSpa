@@ -2,12 +2,6 @@
   #style.css
 \*-----------------------------------*/
 
-/**
- * copyright 2022 codewithsadee
- */
-
-
-
 
 
 /*-----------------------------------*\
@@ -867,7 +861,15 @@ body {
 .auth-btn:hover {
   background-color: var(--oxford-blue-1);
 }
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Adds space between the buttons */
+}
 
+.button-group .auth-btn {
+  width: calc(50% - 5px); /* Each button takes half the width minus the gap */
+}
 /* Responsive toggle link */
 .toggle-link {
   text-align: center;

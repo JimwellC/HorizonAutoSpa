@@ -281,14 +281,12 @@
 
           <!-- Customer Review Section -->
           <div class="customer-review">
-            <form id="review-form">
-              
-              <label for="review">Tell us more about your experience:</label>
-              <textarea id="review" name="review" rows="4" placeholder="Write your feedback here..." required></textarea>
-              
-              <button type="submit" class="submit-review">Submit Feedback</button>
-            </form>
+            <label for="review">Tell us more about your experience:</label>
+            <textarea id="review" name="review" rows="4" placeholder="Write your feedback here..."></textarea>
           </div>
+
+          <button type="submit" class="submit-review">Submit Feedback</button>
+        </div>
         
         
       
@@ -404,11 +402,17 @@
     </div>
 
   </footer>
+
+   <!-- Firebase SDKs -->
+   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"></script>
   <!-- 
     - custom js link
   -->
-  <script type="module" src="./assets/js/horizonfirebase.js"></script>
+
   <script src="./assets/js/scripts.js"></script>
+  <script src="./assets/js/firebaseauth.js" type="module"></script>
 
 </body>
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 
+    - primary meta tags
+  -->
+  <title>Login - Horizon Auto Spa</title>
+  <!-- 
+    - favicon
+  -->
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.svg">
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Mulish&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - material icon font
+  -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,600,0,0" />
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- 
+    - preload images
+  -->
+  <link rel="preload" as="image" href="./assets/images/hero-banner.png">
+  <link rel="preload" as="image" href="./assets/images/hero-bg.png">
+
+</head>
+
+<body style="background: url('./assets/images/hero-bg.png') no-repeat center center fixed; background-size: cover;">
+  <div class="auth-container">
+    <div class="auth-box glass-effect">
+
+      <!-- Login Form -->
+      <form class="auth-form" id="login-form">
+        <h2 class="auth-title">LOGIN</h2>
+        <label for="login-email">Email</label>
+        <input type="email" id="email" name="login-email" required placeholder="Enter your Email Address">
+
+        <label for="login-password">Password</label>
+        <input type="password" id="password" name="login-password" required placeholder="Enter your Password">
+        <br>
+        <div class="button-group">
+          <button class="auth-btn guest-btn" onclick="location.href='index.html'; return false;">Guest</button>
+          <button type="submit" id="submitSignIn" class="auth-btn">Login</button>
+        </div>
+        <br>
+        <p class="toggle-link">Don't have an account? <a href="register.html ">Sign Up here</a></p>
+
+      </form>
+
+      <div id="signInMessage" style="display:none"></div>
+
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"></script>
+
+  <!-- Custom Script -->
+  <script src="./assets/js/firebaseauth.js" type="module"></script>
+</body>
+
+</html>
