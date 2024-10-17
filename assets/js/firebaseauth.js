@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore(app);
 
-// Show message function
+// Function to show a message on the page (success/error)
 function showMessage(message, divId) {
   const messageDiv = document.getElementById(divId);
   messageDiv.style.display = "block";
@@ -29,13 +29,12 @@ function showMessage(message, divId) {
   }, 5000);
 }
 
-// Check if we are on the registration page
-if (document.getElementById('submitSignUp')) {
-  const signUp = document.getElementById('signup-form');
+// Registration logic
+if (document.getElementById('signup-form')) {
+  const signUpForm = document.getElementById('signup-form');
 
-  // Handle sign-up form submission
-  signUp.addEventListener('submit', (event) => {
-    event.preventDefault();  // Prevent the default form submission
+  signUpForm.addEventListener('submit', (event) => {
+    event.preventDefault();  // Prevent the default form submission behavior
 
     const username = document.getElementById('username').value;
     const email = document.getElementById('rEmail').value;
@@ -52,7 +51,7 @@ if (document.getElementById('submitSignUp')) {
           email: email,
           uid: user.uid
         }).then(() => {
-          // Show success message and redirect to login page
+          // Show success message and redirect to the login page
           showMessage('Account created successfully! Redirecting to login...', 'signUpMessage');
           setTimeout(() => {
             window.location.href = 'login.html';  // Redirect to the login page after registration
@@ -73,15 +72,13 @@ if (document.getElementById('submitSignUp')) {
   });
 }
 
-
-// Check if we are on the login page
+// Login logic
 if (document.getElementById('login-form')) {
   const loginForm = document.getElementById('login-form');
-  
-  // Handle form submission
+
   loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();  // Prevent the default form submission
-    
+    event.preventDefault();  // Prevent the default form submission behavior
+
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -96,18 +93,16 @@ if (document.getElementById('login-form')) {
             if (docSnap.exists()) {
               const userData = docSnap.data();
               localStorage.setItem('loggedInUser', JSON.stringify(userData));
-
-              // Redirect to the homepage immediately
-              window.location.href = 'index.html';
+              window.location.href = 'index.html';  // Redirect to the homepage
             } else {
               showMessage('User data not found. Redirecting...', 'signInMessage');
-              setTimeout(() => window.location.href = 'index.html', 1000); // Fallback
+              setTimeout(() => window.location.href = 'index.html', 1000);  // Fallback in case of missing user data
             }
           })
           .catch((error) => {
             console.error('Error fetching user data from Firestore:', error);
             showMessage('Error fetching user data. Redirecting...', 'signInMessage');
-            setTimeout(() => window.location.href = 'index.html', 1000); // Fallback
+            setTimeout(() => window.location.href = 'index.html', 1000);  // Fallback
           });
       })
       .catch((error) => {
@@ -121,13 +116,60 @@ if (document.getElementById('login-form')) {
   });
 }
 
-// Load booking information from Firestore
-async function loadBookingInformation() {
+// Handle Contact Form Submission and create booking info
+document.addEventListener('formSubmitted', async function (e) {
+  const formData = e.detail;
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));  // Ensure user is logged in
+
+  if (!user) {
+    alert("Please log in to submit the form.");
+    return;
+  }
+
+  try {
+    // Store the form data in Firestore
+    const docRef = doc(db, "contactForm", user.uid);
+    await setDoc(docRef, {
+      name: formData.name,
+      email: formData.email,
+      mobile: formData.mobile,
+      make: formData.make,
+      year: formData.year,
+      services: formData.services,
+      date: formData.date,
+      additionalInfo: formData.additionalInfo,
+      userId: user.uid,
+      timestamp: new Date().toISOString()
+    });
+
+    // Add booking information to Firestore for notifications
+    const bookingRef = collection(db, "bookingInformation");
+    await addDoc(bookingRef, {
+      userId: user.uid,
+      message: `Appointment booked for ${formData.name || '(No Name)'} (${formData.make || '(No Make)'} - ${formData.year || '(No Year)'}) on ${formData.date}. Services: ${formData.services.join(', ')}`,
+      timestamp: new Date().toISOString()
+    });
+
+    // Alert success after both operations succeed
+    alert("Form data stored in Firestore successfully!");
+
+    // After storing the booking, retrieve and update the notification dropdown
+    loadNotifications();
+  } catch (error) {
+    console.error("Error submitting form: ", error);
+    alert("Error submitting the form. Please try again.");
+  }
+});
+
+// Load notifications from Firestore when the page loads
+async function loadNotifications() {
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
   const notificationDropdown = document.getElementById('notification-dropdown');
+
   if (user) {
     try {
-      const q = query(collection(db, "bookingInformation"), where("userId", "==", user.userId));
+      // Query Firestore for booking information related to the logged-in user
+      const q = query(collection(db, "bookingInformation"), where("userId", "==", user.uid));
       const querySnapshot = await getDocs(q);
 
       const bookings = [];
@@ -137,8 +179,8 @@ async function loadBookingInformation() {
 
       // If bookings are found, display them
       if (bookings.length > 0) {
-        displayBookingInformation(bookings);
-        // Save booking info in localStorage to persist across page changes
+        displayNotifications(bookings);
+        // Save booking info in localStorage to persist across page changes (optional)
         localStorage.setItem('bookings', JSON.stringify(bookings));
       } else {
         // If no bookings are found, clear localStorage and update UI
@@ -147,8 +189,25 @@ async function loadBookingInformation() {
       }
     } catch (error) {
       console.error("Error fetching booking information: ", error);
+      localStorage.removeItem('bookings');  // Clear stale data if there was an error
+      notificationDropdown.innerHTML = '<p>Error loading notifications.</p>';
     }
   }
+}
+
+// Display notifications in the dropdown
+function displayNotifications(bookings) {
+  const notificationDropdown = document.getElementById('notification-dropdown');
+  notificationDropdown.innerHTML = ''; // Clear existing notifications
+
+  bookings.forEach((booking) => {
+    const bookingHTML = `
+      <div class="notification-item">
+        <p>${booking.message}</p>
+      </div>
+    `;
+    notificationDropdown.innerHTML += bookingHTML;
+  });
 }
 
 // Check for booking information on page load
@@ -161,114 +220,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Check if bookings exist in localStorage
   if (storedBookings && storedBookings.length > 0) {
-    displayBookingInformation(storedBookings);
+    displayNotifications(storedBookings);
   } else {
-    loadBookingInformation();  // Load bookings from Firestore if not in localStorage
-  }
-});
-
-// Function to display booking information
-function displayBookingInformation(bookings) {
-  const notificationDropdown = document.getElementById('notification-dropdown');
-  notificationDropdown.innerHTML = ''; // Clear existing notifications
-
-  if (bookings.length > 0) {
-    bookings.forEach((booking) => {
-      const bookingHTML = `
-        <div class="notification-item">
-          <p>${booking.message}</p>
-        </div>
-      `;
-      notificationDropdown.innerHTML += bookingHTML;
-    });
-  } else {
-    // If no bookings are found, hide the notification dropdown
-    notificationDropdown.innerHTML = '<p>No bookings found.</p>';
-  }
-}
-
-
-
-
-
-// Handle Contact Form Submission and create booking info
-document.addEventListener('DOMContentLoaded', function () {
-  const contactForm = document.getElementById('multiStepForm');
-
-  if (contactForm) {
-    contactForm.addEventListener('submit', async function (event) {
-      event.preventDefault();
-
-      const user = JSON.parse(localStorage.getItem('loggedInUser')); // Get logged-in user UID
-
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const mobile = document.getElementById('mobile').value;
-      const make = document.getElementById('make').value;
-      const year = document.getElementById('year').value;
-      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(input => input.value);
-      const selectedDate = document.getElementById('selectedDate').textContent; // Ensure selected date is properly captured
-      const additionalInfo = document.getElementById('additional-info').value;
-
-      try {
-        // Ensure all values are correctly retrieved before sending to Firestore
-        console.log({ name, email, mobile, make, year, services, selectedDate, additionalInfo });
-
-        const docRef = doc(db, "contactForm", user.userId);  // Store by UID
-        await setDoc(docRef, {
-          name,
-          email,
-          mobile,
-          make,
-          year,
-          services,
-          selectedDate,
-          additionalInfo,
-          userId: user.userId,  // Associate the form submission with the logged-in user's UID
-          timestamp: new Date().toISOString()
-        });
-
-        // Add a booking information in the `bookingInformation` collection
-        const bookingRef = collection(db, "bookingInformation");
-        await addDoc(bookingRef, {
-          userId: user.userId,  // Use UID
-          message: `Appointment booked for ${name} (${make} - ${year}) on ${selectedDate}. Services: ${services.join(', ')}`,
-          timestamp: new Date().toISOString()
-        });
-
-        alert("Form submitted successfully!");
-
-        // Clear the form
-        contactForm.reset(); // Reset the form fields
-      } catch (error) {
-        console.error("Error submitting form: ", error);
-        alert("Error submitting the form. Please try again.");
-      }
-    });
-  }
-});
-
-// Load Booking Information on Page Load
-document.addEventListener('DOMContentLoaded', async function () {
-  const notificationDropdown = document.getElementById('notification-dropdown');
-  const user = JSON.parse(localStorage.getItem('loggedInUser'));
-
-  if (user) {
-    try {
-      const q = query(collection(db, "bookingInformation"), where("userId", "==", user.userId));
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        const booking = doc.data();
-        const bookingHTML = `
-          <div class="notification-item">
-            <p>${booking.message}</p>
-          </div>
-        `;
-        notificationDropdown.innerHTML += bookingHTML;
-      });
-    } catch (error) {
-      console.error("Error fetching booking information: ", error);
-    }
+    loadNotifications();  // Load bookings from Firestore if not in localStorage
   }
 });

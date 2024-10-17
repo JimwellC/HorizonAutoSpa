@@ -133,10 +133,25 @@ document.addEventListener('click', function(event) {
 /**
  * CONTACT FORM
  */
+/**
+ * CONTACT FORM
+ */
 document.addEventListener('DOMContentLoaded', function () {
-  const multiStepForm = document.getElementById('multiStepForm');
+  const form = document.getElementById('multiStepForm');
+  const notificationDropdown = document.getElementById('notification-dropdown');
   const formSteps = Array.from(document.querySelectorAll('.form-step'));
   let currentStep = 0;
+
+  let formData = {
+    name: '',
+    email: '',
+    mobile: '',
+    make: '',
+    year: '',
+    services: [],
+    date: '',
+    additionalInfo: ''
+  };
 
   // Show the current step
   function showStep(stepIndex) {
@@ -154,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', function () {
       if (currentStep < formSteps.length - 1) {
         currentStep++;
+        updateFormData();
         showStep(currentStep);
       }
     });
@@ -169,25 +185,47 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Reset form and go back to step 1 after submission
-  multiStepForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    alert('Form submitted successfully!');
-    multiStepForm.reset();
-    currentStep = 0;
-    showStep(currentStep);
-
-    // Uncheck any checked checkboxes (if any)
-    const checkboxes = multiStepForm.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkbox => checkbox.checked = false);
-  });
-
-  // Disable past dates in the date picker
-  const today = new Date().toISOString().split('T')[0];
-  const dateInput = document.getElementById('selectedDate');
-  if (dateInput) {
-    dateInput.setAttribute('min', today);  // Set minimum selectable date to today
+  // Function to update formData at each step
+  function updateFormData() {
+    formData = {
+      name: document.getElementById('name')?.value || '',
+      email: document.getElementById('email')?.value || '',
+      mobile: document.getElementById('mobile')?.value || '',
+      make: document.getElementById('make')?.value || '',
+      year: document.getElementById('year')?.value || '',
+      services: Array.from(document.querySelectorAll('input[name="services"]:checked')).map(input => input.value),
+      date: document.getElementById('selectedDate')?.textContent || '',
+      additionalInfo: document.getElementById('additional-info')?.value || ''
+    };
   }
+
+  // Handle form submission
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();  // Prevent the default form submission
+
+    // Update form data one last time before submission
+    updateFormData();
+
+    // Log the formData for debugging
+    console.log(formData);
+
+    // Validate required fields before submitting to Firebase
+    if (!formData.name || !formData.email || !formData.mobile) {
+      alert('Please fill out all required fields.');
+      return;
+    }
+
+    // Dispatch the form data to firebaseauth.js
+    const submitEvent = new CustomEvent('formSubmitted', { detail: formData });
+    document.dispatchEvent(submitEvent);
+
+    // The notifications will be handled by firebaseauth.js, no need to duplicate logic here
+    form.reset();  // Reset the form fields after submission
+    currentStep = 0;  // Reset the form step to the first step
+    showStep(currentStep);  // Show the first step
+  });
+});
+
 
 
   // // Handle form submission
@@ -204,7 +242,6 @@ document.addEventListener('DOMContentLoaded', function () {
   //   currentStep = 0;
   //   showStep(currentStep);
   // });
-});
 
 /**
 Reaction Handling
@@ -381,55 +418,6 @@ document.addEventListener('click', function(event) {
 });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-let formData = {
-  name: '',
-  make: '',
-  year: '',
-  services: [],
-  date: ''
-};
-
-const form = document.getElementById('multiStepForm');
-const notificationDropdown = document.getElementById('notification-dropdown');
-
-// Capture data on next button click
-document.querySelectorAll('.next-step').forEach(button => {
-  button.addEventListener('click', function () {
-    // Update formData with current step's input values
-    formData.name = document.getElementById('name')?.value || formData.name;
-    formData.make = document.getElementById('make')?.value || formData.make;
-    formData.year = document.getElementById('year')?.value || formData.year;
-    formData.services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(input => input.value) || formData.services;
-    formData.date = document.getElementById('selectedDate')?.textContent || formData.date;
-  });
-});
-
-form.addEventListener('submit', function (event) {
-  event.preventDefault(); // Prevent the default form submission
-
-  // Pass formData to firebaseauth.js using a custom event
-  const submitEvent = new CustomEvent('formSubmitted', { detail: formData });
-  document.dispatchEvent(submitEvent);
-
-  // Show the notification immediately on the front-end (optional)
-  const { name, make, year, services, date } = formData;
-
-  const reminderHTML = `
-    <div class="notification-item">
-      <p>
-      Appointment booked for ${name} (${make} - ${year}) on ${date}. 
-      Services: ${services.join(', ')}
-      </p>
-    </div>
-  `;
-
-  // Append the reminder to the notification dropdown
-  notificationDropdown.innerHTML += reminderHTML;
-
-  alert('Your appointment reminder has been added!');
-});
-});
 
 
 
