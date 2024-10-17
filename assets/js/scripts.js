@@ -247,66 +247,59 @@ document.addEventListener('DOMContentLoaded', function () {
 Reaction Handling
 */
 
-document.addEventListener('DOMContentLoaded', function() {
-  const reactionButtons = document.querySelectorAll('.reaction-button');
-  const reactionMessage = document.getElementById('reaction-message');
-  const reviewTextarea = document.getElementById('review');
-  let selectedReaction = '';
+document.addEventListener('DOMContentLoaded', function () {
+  const authIcon = document.querySelector('.auth-icon');
 
-  // Handle reaction button clicks
-  reactionButtons.forEach(button => {
-      button.addEventListener('click', () => {
-          selectedReaction = button.getAttribute('data-reaction');
+  // Retrieve the user data from localStorage
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
-          switch (selectedReaction) {
-              case 'excited':
-                  reactionMessage.textContent = 'We are thrilled that you are excited! 😃';
-                  break;
-              case 'happy':
-                  reactionMessage.textContent = 'We are glad you are happy! 😊';
-                  break;
-              case 'neutral':
-                  reactionMessage.textContent = 'Thank you for your feedback. 😐';
-                  break;
-              case 'sad':
-                  reactionMessage.textContent = 'We are sorry you are sad. 😞 We will try to improve!';
-                  break;
-              case 'angry':
-                  reactionMessage.textContent = 'We apologize if something went wrong. 😡 Please let us know how we can improve!';
-                  break;
-          }
+  if (user && user.username) {  // Check if user is logged in and has a valid username
+    // User is logged in: show profile icon with first name and Logout option
+    authIcon.innerHTML = `
+      <a href="#" class="profile-icon-link"><i class="fas fa-user-circle"></i></a>
+      <div class="profile-dropdown" style="display: none;">
+        <p>Welcome, ${user.username}</p> <!-- Display the user's username -->
+        <a href="#" id="logout">Logout</a>
+      </div>
+    `;
 
-          reactionMessage.style.opacity = '1';
-      });
-  });
+    // Toggle the profile dropdown menu
+    authIcon.querySelector('.profile-icon-link').addEventListener('click', function (event) {
+      event.preventDefault();
+      const dropdown = document.querySelector('.profile-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
 
-  // Handle feedback submission
-  document.querySelector('.submit-review').addEventListener('click', () => {
-      const reviewText = reviewTextarea.value;
+    // Handle logout functionality
+    const logoutBtn = document.getElementById('logout');
+    logoutBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      // Clear user data from localStorage to log out
+      localStorage.removeItem('loggedInUser');
+      alert('You have been logged out.');
+      window.location.href = 'login.html'; // Redirect to the login page after logout
+    });
 
-      if (!selectedReaction) {
-          alert('Please select a reaction before submitting your feedback.');
-          return;
-      }
+  } else {
+    // User is not logged in: show profile icon with Login/Sign Up option
+    authIcon.innerHTML = `
+      <a href="#" class="profile-icon-link"><i class="fas fa-user-circle"></i></a>
+      <div class="profile-dropdown" style="display: none;">
+        <a href="login.html">Login</a>
+        <hr>
+        <a href="register.html">Sign Up</a>
+      </div>
+    `;
 
-      if (reviewText.trim() === '') {
-          alert('Please provide some feedback before submitting.');
-          return;
-      }
-
-      // You can send this data to a server or process it further
-      console.log('Selected Reaction:', selectedReaction);
-      console.log('Customer Review:', reviewText);
-
-      alert('Thank you for your feedback!');
-
-      // Reset feedback form
-      reactionMessage.textContent = '';
-      reactionMessage.style.opacity = '0';
-      selectedReaction = '';
-      reviewTextarea.value = ''; // Clear the textarea
-  });
+    // Toggle the login/sign-up dropdown
+    authIcon.querySelector('.profile-icon-link').addEventListener('click', function (event) {
+      event.preventDefault();
+      const dropdown = document.querySelector('.profile-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
+  }
 });
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -426,56 +419,56 @@ document.addEventListener('click', function(event) {
 * Sign/Login
 */
 document.addEventListener('DOMContentLoaded', function () {
-const authIcon = document.querySelector('.auth-icon');
+  const authIcon = document.querySelector('.auth-icon');
 
-// Retrieve the user data from localStorage
-const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  // Retrieve the user data from localStorage
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
 
-if (user) {
-  // User is logged in: show profile icon with first name and Logout option
-  authIcon.innerHTML = `
-    <a href="#" class="profile-icon-link"><i class="fas fa-user-circle"></i></a>
-    <div class="profile-dropdown" style="display: none;">
-      <p>Welcome, ${user.username}</p> <!-- Display the first and last name -->
-      <a href="#" id="logout">Logout</a>
-    </div>
-  `;
+  if (user && user.username) {  // Check if user is logged in and has a valid username
+    // User is logged in: show profile icon with first name and Logout option
+    authIcon.innerHTML = `
+      <a href="#" class="profile-icon-link"><i class="fas fa-user-circle"></i></a>
+      <div class="profile-dropdown" style="display: none;">
+        <p>Welcome, ${user.username}</p> <!-- Display the user's username -->
+        <a href="#" id="logout">Logout</a>
+      </div>
+    `;
 
-  // Toggle the profile dropdown menu
-  authIcon.querySelector('.profile-icon-link').addEventListener('click', function (event) {
-    event.preventDefault();
-    const dropdown = document.querySelector('.profile-dropdown');
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-  });
+    // Toggle the profile dropdown menu
+    authIcon.querySelector('.profile-icon-link').addEventListener('click', function (event) {
+      event.preventDefault();
+      const dropdown = document.querySelector('.profile-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
 
-  // Handle logout functionality
-  const logoutBtn = document.getElementById('logout');
-  logoutBtn.addEventListener('click', function (event) {
-    event.preventDefault();
-    // Clear user data from localStorage to log out
-    localStorage.removeItem('loggedInUser');
-    alert('You have been logged out.');
-    window.location.href = 'login.html'; // Redirect to the login page after logout
-  });
+    // Handle logout functionality
+    const logoutBtn = document.getElementById('logout');
+    logoutBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      // Clear user data from localStorage to log out
+      localStorage.removeItem('loggedInUser');
+      alert('You have been logged out.');
+      window.location.href = 'login.html'; // Redirect to the login page after logout
+    });
 
-} else {
-  // User is not logged in: show profile icon with Login/Sign Up option
-  authIcon.innerHTML = `
-    <a href="#" class="profile-icon-link"><i class="fas fa-user-circle"></i></a>
-    <div class="profile-dropdown" style="display: none;">
-      <a href="login.html">Login</a>
-      <hr>
-      <a href="register.html">Sign Up</a>
-    </div>
-  `;
+  } else {
+    // User is not logged in: show profile icon with Login/Sign Up option
+    authIcon.innerHTML = `
+      <a href="#" class="profile-icon-link"><i class="fas fa-user-circle"></i></a>
+      <div class="profile-dropdown" style="display: none;">
+        <a href="login.html">Login</a>
+        <hr>
+        <a href="register.html">Sign Up</a>
+      </div>
+    `;
 
-  // Toggle the login/sign-up dropdown
-  authIcon.querySelector('.profile-icon-link').addEventListener('click', function (event) {
-    event.preventDefault();
-    const dropdown = document.querySelector('.profile-dropdown');
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-  });
-}
+    // Toggle the login/sign-up dropdown
+    authIcon.querySelector('.profile-icon-link').addEventListener('click', function (event) {
+      event.preventDefault();
+      const dropdown = document.querySelector('.profile-dropdown');
+      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    });
+  }
 });
 
 

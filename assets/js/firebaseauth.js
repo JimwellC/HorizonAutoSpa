@@ -225,3 +225,73 @@ document.addEventListener('DOMContentLoaded', function () {
     loadNotifications();  // Load bookings from Firestore if not in localStorage
   }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const reactionButtons = document.querySelectorAll('.reaction-button');
+  const reactionMessage = document.getElementById('reaction-message');
+  const reviewTextarea = document.getElementById('review');
+  let selectedReaction = '';
+
+  // Handle reaction button clicks
+  reactionButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      selectedReaction = button.getAttribute('data-reaction');
+
+      switch (selectedReaction) {
+        case 'excited':
+          reactionMessage.textContent = 'We are thrilled that you are excited! 😃';
+          break;
+        case 'happy':
+          reactionMessage.textContent = 'We are glad you are happy! 😊';
+          break;
+        case 'neutral':
+          reactionMessage.textContent = 'Thank you for your feedback. 😐';
+          break;
+        case 'sad':
+          reactionMessage.textContent = 'We are sorry you are sad. 😞 We will try to improve!';
+          break;
+        case 'angry':
+          reactionMessage.textContent = 'We apologize if something went wrong. 😡 Please let us know how we can improve!';
+          break;
+      }
+
+      reactionMessage.style.opacity = '1';
+    });
+  });
+
+  // Handle feedback submission
+  document.querySelector('.submit-review').addEventListener('click', async () => {
+    const reviewText = reviewTextarea.value.trim();
+
+    // Ensure a reaction is selected and feedback is provided
+    if (!selectedReaction) {
+      alert('Please select a reaction before submitting your feedback.');
+      return;  // Stop execution if no reaction is selected
+    }
+
+    if (!reviewText) {
+      alert('Please provide some feedback before submitting.');
+      return;  // Stop execution if feedback text is missing
+    }
+
+    // Proceed with storing the feedback in Firestore
+    try {
+      await addDoc(collection(db, 'reactions'), {
+        reaction: selectedReaction,
+        review: reviewText,
+        timestamp: new Date().toISOString(),
+      });
+
+      alert('Thank you for your feedback!');
+
+      // Clear the feedback form after submission
+      reactionMessage.textContent = '';
+      reviewTextarea.value = '';
+      selectedReaction = '';
+
+    } catch (error) {
+      console.error('Error submitting feedback: ', error);
+      alert('Error submitting feedback. Please try again.');
+    }
+  });
+});
