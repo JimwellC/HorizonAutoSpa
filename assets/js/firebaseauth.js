@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-import { getFirestore, setDoc, doc, deleteDoc, getDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { getFirestore, updateDoc, setDoc, doc, deleteDoc, getDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -150,7 +150,8 @@ document.addEventListener('formSubmitted', async function (e) {
       date: formData.date,
       additionalInfo: formData.additionalInfo,
       userId: user.uid,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      status: 'pending'
     });
 
     // Add booking information to Firestore for notifications
@@ -338,10 +339,9 @@ async function getTotalFeedbacks() {
   document.getElementById('totalFeedbacks').innerText = feedbackCount;
 }
 
-
 // Fetch recent orders from Firestore
 async function getRecentOrders() {
-  const querySnapshot = await getDocs(collection(db, "contactForm")); // Change "contactForm" to your actual collection name
+  const querySnapshot = await getDocs(collection(db, "contactForm")); // Fetch data from Firestore
 
   const ordersTable = document.querySelector("#ordersTableBody"); // Targeting the body of the orders table
 
@@ -350,6 +350,7 @@ async function getRecentOrders() {
 
   querySnapshot.forEach((doc) => {
     const orderData = doc.data();
+    const orderId = doc.id; // Get the document ID
     const orderRow = document.createElement('tr');
 
     // Convert services array to a string
@@ -361,29 +362,116 @@ async function getRecentOrders() {
 
     // Determine status based on whether the current date is before or after the service date
     let status = "Pending";
-    if (serviceDate && currentDate > serviceDate) {
+    if (orderData.status === "accepted") {
+      status = "Accepted";
+    } else if (orderData.status === "denied") {
+      status = "Denied";
+    } else if (serviceDate && currentDate > serviceDate) {
       status = "Completed";
     }
 
     // Format the service date for display
     const formattedServiceDate = serviceDate ? serviceDate.toLocaleDateString() : "Not Scheduled";
 
-    // Create HTML content for the row
+    // Create HTML content for the row with conditional buttons
     orderRow.innerHTML = `
-      <td>
-        <p>${orderData.name || 'No Name'}</p>
-      </td>
+      <td>${orderData.name || 'No Name'}</td>
       <td>${new Date(orderData.timestamp).toLocaleDateString()}</td> <!-- Order date -->
       <td>${servicesAcquired}</td> <!-- Services acquired -->
       <td>${formattedServiceDate}</td> <!-- Service date -->
-      <td><span class="status ${status.toLowerCase()}">${status}</span></td> <!-- Status: Pending or Completed -->
+      <td><span class="status ${status.toLowerCase()}">${status}</span></td> <!-- Status: Pending, Accepted, Denied, or Completed -->
+      <td>
+        ${status === "Pending"
+          ? `
+            <button class="accept-booking" data-id="${orderId}">Accept</button>
+            <button class="deny-booking" data-id="${orderId}">Deny</button>
+          `
+          : status === "Accepted"
+          ? `<button class="deny-booking" data-id="${orderId}">Deny (Delete)</button>`
+          : status === "Completed"
+          ? `<button class="delete-booking" data-id="${orderId}">Delete Record</button>`
+          : '' /* No action for Denied status */
+        }
+      </td> <!-- Action buttons based on status -->
     `;
 
     // Append the row to the table
     ordersTable.appendChild(orderRow);
   });
+
+  // Attach event listeners to the Accept button for Pending status
+  document.querySelectorAll('.accept-booking').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const orderId = e.target.getAttribute('data-id');
+      updateBookingStatus(orderId, 'accepted'); // Call the function to accept the booking
+    });
+  });
+
+  // Attach event listeners to the Deny button for Pending and Accepted status
+  document.querySelectorAll('.deny-booking').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const orderId = e.target.getAttribute('data-id');
+      const status = e.target.closest('tr').querySelector('.status').textContent.trim();
+      if (status === 'Accepted') {
+        deleteBooking(orderId); // Call delete if the booking is in Accepted status
+      } else {
+        denyBooking(orderId); // Call deny function for Pending status
+      }
+    });
+  });
+
+  // Attach event listeners to the Delete Record buttons for Completed status
+  document.querySelectorAll('.delete-booking').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const orderId = e.target.getAttribute('data-id');
+      deleteBooking(orderId); // Call the function to delete the booking
+    });
+  });
 }
 
+// Function to update the booking status to "accepted"
+async function updateBookingStatus(orderId, status) {
+  try {
+    const orderDocRef = doc(db, 'contactForm', orderId); // Get the reference to the document
+
+    // Update the document's status
+    await updateDoc(orderDocRef, { status: status });
+
+    alert("Booking has been accepted!");
+    getRecentOrders(); // Refresh the bookings list
+  } catch (error) {
+    console.error("Error updating booking status:", error);
+    alert("Failed to accept the booking. Please try again.");
+  }
+}
+
+// Function to deny the booking (change status to Denied)
+async function denyBooking(orderId) {
+  try {
+    const orderDocRef = doc(db, 'contactForm', orderId);
+    await updateDoc(orderDocRef, { status: "denied" });
+    alert("Booking has been denied.");
+    getRecentOrders(); // Refresh the bookings list
+  } catch (error) {
+    console.error("Error denying booking:", error);
+    alert("Failed to deny the booking. Please try again.");
+  }
+}
+
+// Function to delete the booking from Firestore
+async function deleteBooking(orderId) {
+  if (confirm("Are you sure you want to delete this booking? This action cannot be undone.")) {
+    try {
+      const orderDocRef = doc(db, 'contactForm', orderId); // Get the reference to the document
+      await deleteDoc(orderDocRef); // Delete the document from Firestore
+      alert("Booking has been deleted.");
+      getRecentOrders(); // Refresh the bookings list
+    } catch (error) {
+      console.error("Error deleting booking:", error);
+      alert("Failed to delete the booking. Please try again.");
+    }
+  }
+}
 // Fetch all users from Firestore and display them in the "User Login" section
 async function getUsers() {
   const usersList = document.querySelector(".todo-list"); // Targeting the 'todo-list' element
