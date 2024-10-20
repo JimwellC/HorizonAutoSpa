@@ -745,12 +745,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const auth = getAuth(); // Initialize Firebase Auth
 
-    // Sign out the user
+    // Sign out the user from Firebase Auth
     signOut(auth)
       .then(() => {
+        // Clear any stored user data (optional but recommended)
+        localStorage.removeItem('loggedInUser');
+        sessionStorage.clear();
+
         // Successful logout
         alert("Logged out successfully!");
-        window.location.href = "../login.html";
+
+        // Redirect to the login page (or main website login)
+        window.location.href = "../login.html"; // Adjust the path if needed
       })
       .catch((error) => {
         // Handle errors
