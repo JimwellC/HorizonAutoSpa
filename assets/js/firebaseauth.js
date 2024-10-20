@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-import { getFirestore, updateDoc, setDoc, doc, deleteDoc, getDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { getFirestore, updateDoc, setDoc, doc, deleteDoc, getDoc, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"; 
 
 // Firebase configuration
 const firebaseConfig = {
@@ -19,19 +19,19 @@ const auth = getAuth();
 const db = getFirestore(app);
 
 // Function to show a message on the page (success/error)
-function showMessage(message, divId) {
-  const messageDiv = document.getElementById(divId);
-  messageDiv.style.display = "block";
-  messageDiv.innerHTML = message;
-  messageDiv.style.opacity = 1;
+function showMessage(message, divId) { 
+  const messageDiv = document.getElementById(divId);  // Get the message element by ID
+  messageDiv.style.display = "block"; 
+  messageDiv.innerHTML = message; 
+  messageDiv.style.opacity = 1; 
   setTimeout(() => {
     messageDiv.style.opacity = 0;
-  }, 5000);
+  }, 5000); 
 }
 
 // Registration logic
-if (document.getElementById('signup-form')) {
-  const signUpForm = document.getElementById('signup-form');
+if (document.getElementById('signup-form')) {  
+  const signUpForm = document.getElementById('signup-form'); 
 
   signUpForm.addEventListener('submit', (event) => {
     event.preventDefault();  // Prevent the default form submission behavior
@@ -309,7 +309,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
 //Admin Dashboard
+
 
 // Get registered users
 async function getRegisteredUsers() {
@@ -334,12 +336,14 @@ document.getElementById('totalServicesAcquired').innerText = totalServices;
 }
 
 async function getTotalFeedbacks() {
-  const querySnapshot = await getDocs(collection(db, "reactions"));
+  const querySnapshot = await getDocs(collection(db, "reactions")); // Fetch feedbacks from Firestore
   const feedbackCount = querySnapshot.size;  // Get the number of feedbacks
-  document.getElementById('totalFeedbacks').innerText = feedbackCount;
+  document.getElementById('totalFeedbacks').innerText = feedbackCount; 
 }
 
-// Fetch recent orders from Firestore
+
+
+// Fetch recent Services from Firestore and display them in the "Recent Bookings" section
 async function getRecentOrders() {
   const querySnapshot = await getDocs(collection(db, "contactForm")); // Fetch data from Firestore
 
@@ -472,9 +476,13 @@ async function deleteBooking(orderId) {
     }
   }
 }
+
+
+
+
 // Fetch all users from Firestore and display them in the "User Login" section
 async function getUsers() {
-  const usersList = document.querySelector(".todo-list"); // Targeting the 'todo-list' element
+  const usersList = document.querySelector(".todo-list"); 
 
   // Clear the current list
   usersList.innerHTML = "";
@@ -495,7 +503,7 @@ async function getUsers() {
 
       // Create list item for each user
       const userItem = document.createElement('li');
-      userItem.classList.add('completed'); // Optional: adjust class based on condition
+      userItem.classList.add('completed'); 
       userItem.innerHTML = `
         <p>${userName}</p>
         <button class="delete-user" data-id="${userId}">Delete</button>
@@ -518,6 +526,8 @@ async function getUsers() {
     console.error("Error fetching users: ", error);
   }
 }
+
+
 
 // Function to delete a user and their orders from Firestore
 async function deleteUser(userId) {
@@ -557,7 +567,7 @@ async function deleteUser(userId) {
   }
 }
 
-
+//Call the functions when the page loads
 document.addEventListener('DOMContentLoaded', () => {
 	getRegisteredUsers();
 	getTotalServices();
@@ -566,7 +576,9 @@ document.addEventListener('DOMContentLoaded', () => {
   getUsers();
   });
 
-// Fetch feedback from Firestore and display it
+
+
+// Fetch Customer feedback from Firestore and display it
 async function fetchFeedback() {
   const feedbackTableBody = document.getElementById('feedbackTableBody');
   
@@ -622,6 +634,7 @@ async function deleteFeedback(feedbackId) {
 
 // Call the fetchFeedback function when the page loads
 document.addEventListener('DOMContentLoaded', fetchFeedback);
+
 
 
 
@@ -684,7 +697,7 @@ async function fetchAnalytics() {
     console.log("Negative Reactions:", negativeReactions);
     console.log("Reaction counts:", reactionCounts);
 
-    // Display chart with reaction breakdown
+    // Display the reaction breakdown chart
     displayReactionChart(reactionCounts);
 
   } catch (error) {
@@ -712,11 +725,11 @@ function displayReactionChart(reactionCounts) {
           reactionCounts['angry']
         ],
         backgroundColor: [
-          'rgba(75, 192, 192, 0.2)', // excited - light blue
-          'rgba(54, 162, 235, 0.2)', // happy - blue
-          'rgba(255, 206, 86, 0.2)', // neutral - yellow
-          'rgba(255, 99, 132, 0.2)', // sad - red
-          'rgba(153, 102, 255, 0.2)' // angry - purple
+          'rgba(75, 192, 192, 0.2)', 
+          'rgba(54, 162, 235, 0.2)', 
+          'rgba(255, 206, 86, 0.2)', 
+          'rgba(255, 99, 132, 0.2)', 
+          'rgba(153, 102, 255, 0.2)' 
         ],
         borderColor: [
           'rgba(75, 192, 192, 1)',
@@ -755,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(() => {
         // Successful logout
         alert("Logged out successfully!");
-        window.location.href = "../login.html"; // Redirect to the login page
+        window.location.href = "../login.html";
       })
       .catch((error) => {
         // Handle errors
