@@ -19,19 +19,19 @@ const auth = getAuth();
 const db = getFirestore(app);
 
 // Function to show a message on the page (success/error)
-function showMessage(message, divId) { 
-  const messageDiv = document.getElementById(divId);  // Get the message element by ID
-  messageDiv.style.display = "block"; 
-  messageDiv.innerHTML = message; 
-  messageDiv.style.opacity = 1; 
+function showMessage(message, divId) {
+  const messageDiv = document.getElementById(divId);
+  messageDiv.style.display = "block";
+  messageDiv.innerHTML = message;
+  messageDiv.style.opacity = 1;
   setTimeout(() => {
     messageDiv.style.opacity = 0;
-  }, 5000); 
+  }, 5000);
 }
 
 // Registration logic
-if (document.getElementById('signup-form')) {  
-  const signUpForm = document.getElementById('signup-form'); 
+if (document.getElementById('signup-form')) {
+  const signUpForm = document.getElementById('signup-form');
 
   signUpForm.addEventListener('submit', (event) => {
     event.preventDefault();  // Prevent the default form submission behavior
@@ -138,9 +138,9 @@ document.addEventListener('formSubmitted', async function (e) {
   }
 
   try {
-    // Store the form data in Firestore
-    const docRef = doc(db, "contactForm", user.uid);
-    await setDoc(docRef, {
+    // Store the form data in Firestore with a unique ID
+    const collectionRef = collection(db, "contactForm");
+    await addDoc(collectionRef, {
       name: formData.name,
       email: formData.email,
       mobile: formData.mobile,
@@ -150,8 +150,7 @@ document.addEventListener('formSubmitted', async function (e) {
       date: formData.date,
       additionalInfo: formData.additionalInfo,
       userId: user.uid,
-      timestamp: new Date().toISOString(),
-      status: 'pending'
+      timestamp: new Date().toISOString()
     });
 
     // Add booking information to Firestore for notifications
@@ -175,7 +174,7 @@ document.addEventListener('formSubmitted', async function (e) {
 
 // Load notifications from Firestore when the page loads
 async function loadNotifications() {
-  const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  const user = JSON.parse(localStorage.getItem('loggedInUser')); // Get the current logged-in user
   const notificationDropdown = document.getElementById('notification-dropdown');
 
   if (user) {
@@ -200,12 +199,22 @@ async function loadNotifications() {
         notificationDropdown.innerHTML = '<p>No upcoming appointments.</p>';
       }
     } catch (error) {
-      console.error("Error fetching booking information: ", error);
+      console.error("Error fetching booking information:", error);
       localStorage.removeItem('bookings');  // Clear stale data if there was an error
       notificationDropdown.innerHTML = '<p>Error loading notifications.</p>';
     }
+  } else {
+    // Guest mode - no logged-in user, clear notifications
+    localStorage.removeItem('bookings'); // Ensure no bookings are saved for guest mode
+    notificationDropdown.innerHTML = '<p>Please log in to see your notifications.</p>';
   }
 }
+
+// Call loadNotifications() when the page loads or when user logs in
+document.addEventListener('DOMContentLoaded', () => {
+  loadNotifications(); // Fetch and display notifications (or hide in guest mode)
+});
+
 
 // Display notifications in the dropdown
 function displayNotifications(bookings) {
@@ -309,9 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
 //Admin Dashboard
-
 
 // Get registered users
 async function getRegisteredUsers() {
@@ -336,9 +343,9 @@ document.getElementById('totalServicesAcquired').innerText = totalServices;
 }
 
 async function getTotalFeedbacks() {
-  const querySnapshot = await getDocs(collection(db, "reactions")); // Fetch feedbacks from Firestore
+  const querySnapshot = await getDocs(collection(db, "reactions"));
   const feedbackCount = querySnapshot.size;  // Get the number of feedbacks
-  document.getElementById('totalFeedbacks').innerText = feedbackCount; 
+  document.getElementById('totalFeedbacks').innerText = feedbackCount;
 }
 
 
@@ -444,27 +451,40 @@ async function updateBookingStatus(orderId, status) {
   }
 }
 
-// Function to delete the booking from Firestore (used for Deny and Completed)
+// Function to delete the booking and its related notification from Firestore
 async function deleteBooking(orderId) {
   if (confirm("Are you sure you want to delete this booking? This action cannot be undone.")) {
     try {
       const orderDocRef = doc(db, 'contactForm', orderId); // Get the reference to the document
-      await deleteDoc(orderDocRef); // Delete the document from Firestore
-      alert("Booking has been deleted.");
+      const orderData = (await getDoc(orderDocRef)).data(); // Get the order data to find the userId
+      
+      // Delete the booking document
+      await deleteDoc(orderDocRef); 
+
+      // Also, delete the corresponding notification from Firestore
+      const notificationQuery = query(
+        collection(db, "bookingInformation"), 
+        where("userId", "==", orderData.userId), 
+        where("message", "==", `Appointment booked for ${orderData.name || '(No Name)'} (${orderData.make || '(No Make)'} - ${orderData.year || '(No Year)'}) on ${orderData.date}. Services: ${orderData.services.join(', ')}`)
+      );
+      const notificationSnapshot = await getDocs(notificationQuery);
+      notificationSnapshot.forEach(async (docSnapshot) => {
+        await deleteDoc(doc(db, 'bookingInformation', docSnapshot.id)); // Delete each matching notification
+      });
+
+      alert("Booking and its notification have been deleted.");
       getRecentOrders(); // Refresh the bookings list
     } catch (error) {
-      console.error("Error deleting booking:", error);
-      alert("Failed to delete the booking. Please try again.");
+      console.error("Error deleting booking and notification:", error);
+      alert("Failed to delete the booking and its notification. Please try again.");
     }
   }
 }
 
 
-
-
 // Fetch all users from Firestore and display them in the "User Login" section
 async function getUsers() {
-  const usersList = document.querySelector(".todo-list"); 
+  const usersList = document.querySelector(".todo-list"); // Targeting the 'todo-list' element
 
   // Clear the current list
   usersList.innerHTML = "";
@@ -485,7 +505,7 @@ async function getUsers() {
 
       // Create list item for each user
       const userItem = document.createElement('li');
-      userItem.classList.add('completed'); 
+      userItem.classList.add('completed'); // Optional: adjust class based on condition
       userItem.innerHTML = `
         <p>${userName}</p>
         <button class="delete-user" data-id="${userId}">Delete</button>
@@ -508,8 +528,6 @@ async function getUsers() {
     console.error("Error fetching users: ", error);
   }
 }
-
-
 
 // Function to delete a user and their orders from Firestore
 async function deleteUser(userId) {
@@ -549,7 +567,7 @@ async function deleteUser(userId) {
   }
 }
 
-//Call the functions when the page loads
+
 document.addEventListener('DOMContentLoaded', () => {
 	getRegisteredUsers();
 	getTotalServices();
@@ -558,9 +576,7 @@ document.addEventListener('DOMContentLoaded', () => {
   getUsers();
   });
 
-
-
-// Fetch Customer feedback from Firestore and display it
+// Fetch feedback from Firestore and display it
 async function fetchFeedback() {
   const feedbackTableBody = document.getElementById('feedbackTableBody');
   
@@ -616,7 +632,6 @@ async function deleteFeedback(feedbackId) {
 
 // Call the fetchFeedback function when the page loads
 document.addEventListener('DOMContentLoaded', fetchFeedback);
-
 
 
 
@@ -679,7 +694,7 @@ async function fetchAnalytics() {
     console.log("Negative Reactions:", negativeReactions);
     console.log("Reaction counts:", reactionCounts);
 
-    // Display the reaction breakdown chart
+    // Display chart with reaction breakdown
     displayReactionChart(reactionCounts);
 
   } catch (error) {
@@ -707,11 +722,11 @@ function displayReactionChart(reactionCounts) {
           reactionCounts['angry']
         ],
         backgroundColor: [
-          'rgba(75, 192, 192, 0.2)', 
-          'rgba(54, 162, 235, 0.2)', 
-          'rgba(255, 206, 86, 0.2)', 
-          'rgba(255, 99, 132, 0.2)', 
-          'rgba(153, 102, 255, 0.2)' 
+          'rgba(75, 192, 192, 0.2)', // excited - light blue
+          'rgba(54, 162, 235, 0.2)', // happy - blue
+          'rgba(255, 206, 86, 0.2)', // neutral - yellow
+          'rgba(255, 99, 132, 0.2)', // sad - red
+          'rgba(153, 102, 255, 0.2)' // angry - purple
         ],
         borderColor: [
           'rgba(75, 192, 192, 1)',
@@ -745,18 +760,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const auth = getAuth(); // Initialize Firebase Auth
 
-    // Sign out the user from Firebase Auth
+    // Sign out the user
     signOut(auth)
       .then(() => {
-        // Clear any stored user data (optional but recommended)
-        localStorage.removeItem('loggedInUser');
-        sessionStorage.clear();
-
         // Successful logout
         alert("Logged out successfully!");
-
-        // Redirect to the login page (or main website login)
-        window.location.href = "../login.html"; // Adjust the path if needed
+        window.location.href = "../login.html"; // Redirect to the login page
       })
       .catch((error) => {
         // Handle errors
@@ -765,3 +774,5 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 });
+
+
