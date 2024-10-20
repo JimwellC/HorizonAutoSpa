@@ -343,7 +343,7 @@ async function getTotalFeedbacks() {
 
 
 
-// Fetch recent Services from Firestore and display them in the "Recent Bookings" section
+// Fetch recent orders from Firestore
 async function getRecentOrders() {
   const querySnapshot = await getDocs(collection(db, "contactForm")); // Fetch data from Firestore
 
@@ -411,16 +411,11 @@ async function getRecentOrders() {
     });
   });
 
-  // Attach event listeners to the Deny button for Pending and Accepted status
+  // Attach event listeners to the Deny button for both Pending and Accepted statuses
   document.querySelectorAll('.deny-booking').forEach(button => {
     button.addEventListener('click', (e) => {
       const orderId = e.target.getAttribute('data-id');
-      const status = e.target.closest('tr').querySelector('.status').textContent.trim();
-      if (status === 'Accepted') {
-        deleteBooking(orderId); // Call delete if the booking is in Accepted status
-      } else {
-        denyBooking(orderId); // Call deny function for Pending status
-      }
+      deleteBooking(orderId); // Call deleteBooking for Pending and Accepted status
     });
   });
 
@@ -449,20 +444,7 @@ async function updateBookingStatus(orderId, status) {
   }
 }
 
-// Function to deny the booking (change status to Denied)
-async function denyBooking(orderId) {
-  try {
-    const orderDocRef = doc(db, 'contactForm', orderId);
-    await updateDoc(orderDocRef, { status: "denied" });
-    alert("Booking has been denied.");
-    getRecentOrders(); // Refresh the bookings list
-  } catch (error) {
-    console.error("Error denying booking:", error);
-    alert("Failed to deny the booking. Please try again.");
-  }
-}
-
-// Function to delete the booking from Firestore
+// Function to delete the booking from Firestore (used for Deny and Completed)
 async function deleteBooking(orderId) {
   if (confirm("Are you sure you want to delete this booking? This action cannot be undone.")) {
     try {
@@ -777,5 +759,3 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 });
-
-
