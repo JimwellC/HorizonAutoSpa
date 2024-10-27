@@ -247,18 +247,35 @@
 
 
       
-          <!-- Step 4: Additional Info and Submit -->
+          <!-- Step 4: Platform Selection and Additional Info -->
           <div class="form-step" style="display:none;">
+            <!-- Additional Information Text Area -->
             <h3 class="white-h3">Anything else you would like us to know?</h3><br>
             <textarea id="additional-info" name="additional-info" rows="4" placeholder="Tell us a little bit about your car's history" required></textarea>
-            <div class="button-container">
-              <button type="button" class="prev-step">Previous</button>
-              <button type="submit" class="submit-form">Submit</button>
-            </div>
               
-            
+          <h3 class="white-h3">Where would you like us to send the marketing content?</h3><br>
+          
+          <!-- Email or Social Media Selection -->
+          <label>Choose a method:</label><br>
+          <label><input type="radio" name="method" value="email" onclick="togglePlatformOptions()" required> Email</label>
+          <label><input type="radio" name="method" value="social-media" onclick="togglePlatformOptions()"> Social Media</label>
+
+          <!-- Social Media Platform Selection (Initially Hidden) -->
+          <div id="socialMediaOptions" style="display:none; margin-top: 15px;">
+            <label for="platform">Select a platform:</label>
+            <select id="platform" name="platform">
+              <option value="">Select a platform</option>
+              <option value="facebook">Facebook</option>
+              <option value="instagram">Instagram</option>
+              <option value="twitter">Twitter</option>
+            </select>
           </div>
-      
+          <!-- Navigation Buttons -->
+          <div class="button-container">
+            <button type="button" class="prev-step">Previous</button>
+            <button type="submit" class="submit-form">Submit</button>
+          </div>
+        </div>
         </form>
 
         <hr class="form-reaction-divider">

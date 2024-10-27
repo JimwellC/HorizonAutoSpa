@@ -226,6 +226,51 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+// Function to toggle the visibility of social media options based on the selected method
+function togglePlatformOptions() {
+  const method = document.querySelector('input[name="method"]:checked').value;
+  const socialMediaOptions = document.getElementById("socialMediaOptions");
+
+  if (method === "social-media") {
+    socialMediaOptions.style.display = "block";
+  } else {
+    socialMediaOptions.style.display = "none";
+  }
+}
+
+// Event listener for form submission to handle platform-specific mockup display
+document.getElementById("multiStepForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent default form submission
+
+  const method = document.querySelector('input[name="method"]:checked').value;
+  let mockupURL = "";
+
+  if (method === "email") {
+    mockupURL = "/assets/images/email-mockup.png"; // Replace with actual path
+  } else if (method === "social-media") {
+    const platform = document.getElementById("platform").value;
+    switch (platform) {
+      case "facebook":
+        mockupURL = "/assets/images/facebook-mockup.png";
+        break;
+      case "instagram":
+        mockupURL = "/assets/images/instagram-mockup.png";
+        break;
+      case "twitter":
+        mockupURL = "/assets/images/twitter-mockup.png";
+        break;
+      default:
+        alert("Please select a social media platform.");
+        return;
+    }
+  }
+
+  if (mockupURL) {
+    window.open(mockupURL, "_blank");
+  } else {
+    alert("Please select a platform.");
+  }
+});
 
 
   // // Handle form submission
@@ -410,6 +455,7 @@ document.addEventListener('click', function(event) {
     }
 });
 });
+
 
 
 
