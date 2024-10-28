@@ -532,6 +532,35 @@ body {
   padding: 20px;
 }
 
+/* Container styling */
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Adjust as needed */
+  max-width: 600px; /* Limit max width for readability */
+  margin: 0 auto; /* Center align and add spacing */
+  padding: 10px;
+  margin-top: 15%;
+  margin-bottom: 5%;
+}
+
+/* Wider search input */
+#searchInput {
+  flex-grow: 1;
+  padding: 15px 20px;
+  width: 100%; /* Fill container */
+  margin-right: 10px;
+  border: 1px solid var(--international-orange-engineering);
+  border-radius: 4px;
+}
+
+/* Search icon styling */
+.search-container .fas.fa-search {
+  font-size: 1.2em;
+  color: var(--cadet-blue-creyola); /* Icon color */
+  margin-top: -15px;
+  margin-left: 15px; /* Move icon over the input */
+}
 
 
 
@@ -944,6 +973,7 @@ body {
 .auth-icon {
   position: relative;
   margin-left: 15px;
+  display: block !important; /* Ensure it's visible */
 }
 
 .fas.fa-user-circle {
@@ -951,6 +981,8 @@ body {
   color: white;
   transition: color 0.3s ease;
   margin: 7px;
+  display: block !important; /* Ensure it's visible */
+
 }
 
 .fas.fa-user-circle:hover {
@@ -1671,7 +1703,7 @@ button[data-reaction="angry"] { background-color: #f0b1aa; }
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
-  margin: 15% 8% 8% 8%;
+  margin: 5% 8% 8% 8%;
 }
 
 .card {
@@ -2074,17 +2106,25 @@ button[data-reaction="angry"] { background-color: #f0b1aa; }
     color: var(--white);
   }
 
-  .navbar-link::after {
-    content: url("../images/nav-before-img.png");
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-  }
+  /* Underline effect for hover and active */
+.navbar-link::after {
+  content: url("../images/nav-before-img.png");
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0; /* Hidden by default */
+}
 
-  .navbar-link:is(:hover, :focus-visible)::after { opacity: 1; }
+/* Show underline on hover and focus */
+.navbar-link:is(:hover, :focus-visible)::after {
+  opacity: 1;
+}
 
+/* Show underline for the active page */
+.navbar-link.active::after {
+  opacity: 1; /* Make underline visible for active link */
+}
   .header .btn {
     display: flex;
     padding: 12px 24px;

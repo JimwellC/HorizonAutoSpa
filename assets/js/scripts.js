@@ -127,150 +127,141 @@ document.addEventListener('click', function(event) {
   });
   
 
-
-
-
-/**
- * CONTACT FORM
- */
-/**
- * CONTACT FORM
- */
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('multiStepForm');
-  const notificationDropdown = document.getElementById('notification-dropdown');
-  const formSteps = Array.from(document.querySelectorAll('.form-step'));
-  let currentStep = 0;
-
-  let formData = {
-    name: '',
-    email: '',
-    mobile: '',
-    make: '',
-    year: '',
-    services: [],
-    date: '',
-    additionalInfo: ''
-  };
-
-  // Show the current step
-  function showStep(stepIndex) {
-    formSteps.forEach((step, index) => {
-      step.style.display = index === stepIndex ? 'block' : 'none';
-    });
-    document.getElementById('currentStep').textContent = stepIndex + 1;
-  }
-
-  // Show the initial step
-  showStep(currentStep);
-
-  // Handle next-step buttons
-  document.querySelectorAll('.next-step').forEach(button => {
-    button.addEventListener('click', function () {
-      if (currentStep < formSteps.length - 1) {
-        currentStep++;
-        updateFormData();
-        showStep(currentStep);
-      }
-    });
-  });
-
-  // Handle previous-step buttons
-  document.querySelectorAll('.prev-step').forEach(button => {
-    button.addEventListener('click', function () {
-      if (currentStep > 0) {
-        currentStep--;
-        showStep(currentStep);
-      }
-    });
-  });
-
-  // Function to update formData at each step
-  function updateFormData() {
-    formData = {
-      name: document.getElementById('name')?.value || '',
-      email: document.getElementById('email')?.value || '',
-      mobile: document.getElementById('mobile')?.value || '',
-      make: document.getElementById('make')?.value || '',
-      year: document.getElementById('year')?.value || '',
-      services: Array.from(document.querySelectorAll('input[name="services"]:checked')).map(input => input.value),
-      date: document.getElementById('selectedDate')?.textContent || '',
-      additionalInfo: document.getElementById('additional-info')?.value || ''
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('multiStepForm');
+    const formSteps = Array.from(document.querySelectorAll('.form-step'));
+    let currentStep = 0;
+  
+    let formData = {
+      name: '',
+      email: '',
+      mobile: '',
+      make: '',
+      year: '',
+      services: [],
+      date: '',
+      additionalInfo: ''
     };
-  }
-
-  // Handle form submission
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();  // Prevent the default form submission
-
-    // Update form data one last time before submission
-    updateFormData();
-
-    // Log the formData for debugging
-    console.log(formData);
-
-    // Validate required fields before submitting to Firebase
-    if (!formData.name || !formData.email || !formData.mobile) {
-      alert('Please fill out all required fields.');
-      return;
+  
+    // Show the current step
+    function showStep(stepIndex) {
+      formSteps.forEach((step, index) => {
+        step.style.display = index === stepIndex ? 'block' : 'none';
+      });
+      document.getElementById('currentStep').textContent = stepIndex + 1;
     }
-
-    // Dispatch the form data to firebaseauth.js
-    const submitEvent = new CustomEvent('formSubmitted', { detail: formData });
-    document.dispatchEvent(submitEvent);
-
-    // The notifications will be handled by firebaseauth.js, no need to duplicate logic here
-    form.reset();  // Reset the form fields after submission
-    currentStep = 0;  // Reset the form step to the first step
-    showStep(currentStep);  // Show the first step
-  });
-});
-
-// Function to toggle the visibility of social media options based on the selected method
-function togglePlatformOptions() {
-  const method = document.querySelector('input[name="method"]:checked').value;
-  const socialMediaOptions = document.getElementById("socialMediaOptions");
-
-  if (method === "social-media") {
-    socialMediaOptions.style.display = "block";
-  } else {
-    socialMediaOptions.style.display = "none";
-  }
-}
-
-// Event listener for form submission to handle platform-specific mockup display
-document.getElementById("multiStepForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent default form submission
-
-  const method = document.querySelector('input[name="method"]:checked').value;
-  let mockupURL = "";
-
-  if (method === "email") {
-    mockupURL = "/assets/images/email-mockup.png"; // Replace with actual path
-  } else if (method === "social-media") {
-    const platform = document.getElementById("platform").value;
-    switch (platform) {
-      case "facebook":
-        mockupURL = "/assets/images/facebook-mockup.png";
-        break;
-      case "instagram":
-        mockupURL = "/assets/images/instagram-mockup.png";
-        break;
-      case "twitter":
-        mockupURL = "/assets/images/twitter-mockup.png";
-        break;
-      default:
-        alert("Please select a social media platform.");
+  
+    // Show the initial step
+    showStep(currentStep);
+  
+    // Handle next-step buttons
+    document.querySelectorAll('.next-step').forEach(button => {
+      button.addEventListener('click', function () {
+        if (currentStep < formSteps.length - 1) {
+          currentStep++;
+          updateFormData();
+          showStep(currentStep);
+        }
+      });
+    });
+  
+    // Handle previous-step buttons
+    document.querySelectorAll('.prev-step').forEach(button => {
+      button.addEventListener('click', function () {
+        if (currentStep > 0) {
+          currentStep--;
+          showStep(currentStep);
+        }
+      });
+    });
+  
+    // Function to update formData at each step
+    function updateFormData() {
+      formData = {
+        name: document.getElementById('name')?.value || '',
+        email: document.getElementById('email')?.value || '',
+        mobile: document.getElementById('mobile')?.value || '',
+        make: document.getElementById('make')?.value || '',
+        year: document.getElementById('year')?.value || '',
+        services: Array.from(document.querySelectorAll('input[name="services"]:checked')).map(input => input.value),
+        date: document.getElementById('selectedDate')?.textContent || '',
+        additionalInfo: document.getElementById('additional-info')?.value || ''
+      };
+    }
+  
+    // Function to toggle the visibility of social media options based on the selected method
+    function togglePlatformOptions() {
+      const method = document.querySelector('input[name="method"]:checked')?.value;
+      const socialMediaOptions = document.getElementById("socialMediaOptions");
+  
+      if (method === "social-media") {
+        socialMediaOptions.style.display = "block";
+      } else {
+        socialMediaOptions.style.display = "none";
+      }
+    }
+  
+    // Attach event listener to radio buttons to trigger toggle on change
+    document.querySelectorAll('input[name="method"]').forEach((radio) => {
+      radio.addEventListener("change", togglePlatformOptions);
+    });
+  
+    // Handle form submission
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();  // Prevent the default form submission
+  
+      // Update form data one last time before submission
+      updateFormData();
+  
+      // Validate required fields before submitting to Firebase
+      if (!formData.name || !formData.email || !formData.mobile) {
+        alert('Please fill out all required fields.');
         return;
-    }
-  }
+      }
+  
+      // Mockup display logic
+      const method = document.querySelector('input[name="method"]:checked')?.value;
+      let mockupURL = "";
+  
+      if (method === "email") {
+        mockupURL = "/assets/images/email-mockup.png"; // Replace with actual path
+      } else if (method === "social-media") {
+        const platform = document.getElementById("platform").value;
+        switch (platform) {
+          case "facebook":
+            mockupURL = "/assets/images/facebook-mockup.png";
+            break;
+          case "instagram":
+            mockupURL = "/assets/images/instagram-mockup.png";
+            break;
+          case "twitter":
+            mockupURL = "/assets/images/twitter-mockup.png";
+            break;
+          default:
+            alert("Please select a social media platform.");
+            return;
+        }
+      }
+  
+      // Open the mockup URL in a new tab if a valid URL is found
+      if (mockupURL) {
+        window.open(mockupURL, "_blank");
+      } else {
+        alert("Please select a platform.");
+      }
+  
+      // Dispatch the form data to firebaseauth.js
+      const submitEvent = new CustomEvent('formSubmitted', { detail: formData });
+      document.dispatchEvent(submitEvent);
+  
+      // Reset the form after submission
+      form.reset();
+      currentStep = 0;
+      showStep(currentStep);
+    });
+  });
+  
 
-  if (mockupURL) {
-    window.open(mockupURL, "_blank");
-  } else {
-    alert("Please select a platform.");
-  }
-});
 
 
   // // Handle form submission

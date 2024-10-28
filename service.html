@@ -68,7 +68,7 @@
           </li>
 
           <li>
-            <a href="service.html" class="navbar-link">Services</a>
+            <a href="service.html" class="navbar-link active">Services</a>
           </li>
 
           <li>
@@ -102,7 +102,7 @@
 
   <main>
     <article>
-          <section>
+          <!-- <section>
             <div id="cards">
                 <div class="card">
                   <div class="card-content">
@@ -159,7 +159,22 @@
                     </div>
                   </div>
               </div>
-          </section>
+          </section> -->
+          <!-- Search Input -->
+
+    <!-- Container for dynamically loaded service cards -->
+    
+    <section id="serviceSection">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search services...">
+        <i class="fas fa-search" onclick="window.filterServices()" style="cursor: pointer;"></i>
+      </div>
+    
+      <div id="cards">
+        <!-- Service cards will be inserted here by JavaScript -->
+      </div>
+    </section>
+    
     </article>
     <button id="scrollToTopBtn" class="scroll-to-top-btn">↑</button>
   </main>

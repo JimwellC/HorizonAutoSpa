@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../assets/css/DashboardStyle.css">
+    <title>Admin - Services</title>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <i class='bx bxs-smile'></i>
+            <span class="text">HorizonAdmin</span>
+        </a>
+        <ul class="side-menu top">
+            <li><a href="DashboardAdmin.html"><i class='bx bxs-dashboard'></i><span class="text">Dashboard</span></a></li>
+            <li><a href="AnalyticsAdmin.html"><i class='bx bxs-doughnut-chart'></i><span class="text">Analytics</span></a></li>
+            <li><a href="FeedbackAdmin.html"><i class='bx bxs-message-dots'></i><span class="text">Feedbacks</span></a></li>
+            <li><a href="CustomerAdmin.html"><i class='bx bxs-user'></i><span class="text">Customers</span></a></li>
+            <li class="active"><a href="ServicesAdmin.html"><i class='bx bxs-package'></i><span class="text">Services</span></a></li>
+        </ul>
+        <ul class="side-menu">
+            <li><a href="#"><i class='bx bxs-cog'></i><span class="text">Settings</span></a></li>
+            <li><a href="/login.html" class="logout"><i class='bx bxs-log-out-circle'></i><span class="text">Logout</span></a></li>
+        </ul>
+    </section>
+
+
+    <!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			<a href="#" class="profile">
+				<i class="bx bx-face"></i>
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+		 
+        <!-- MAIN CONTENT -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Services</h1>
+                </div>
+            </div>
+
+            <!-- Display Services List -->
+            <div class="service table-data">
+				
+                <div class="service-list">
+                    <h3>All Services</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Link</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="servicesTableBody">
+                            <!-- Service entries will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </section>
+	<script src="../assets/js/dashboardScript.js"></script>
+    <script src="../assets/js/firebaseauth.js" type="module"></script>
+</body>
+</html>

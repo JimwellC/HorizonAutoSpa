@@ -530,11 +530,18 @@ button:hover {
 }
 /* MAIN */
 /* CONTENT */
-
-
-
-
-
+.service-list h3 {
+	margin-bottom: 10px;
+  }
+  
+  .service-list table {
+	width: 100%;
+	border-collapse: collapse;
+  }
+  
+  .service-list table, th, td {
+	padding: 10px;
+  }
 
 
 

@@ -776,3 +776,89 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Function to fetch and display services initially
+async function fetchServices() {
+  const servicesCollection = collection(db, "services");
+  try {
+    const snapshot = await getDocs(servicesCollection);
+    const servicesContainer = document.getElementById("cards");
+    servicesContainer.innerHTML = '';
+
+    snapshot.forEach(doc => {
+      const service = doc.data();
+      const serviceCard = document.createElement("div");
+      serviceCard.classList.add("card");
+
+      serviceCard.innerHTML = `
+        <div class="card-content">
+          <img src="${service.image}" alt="${service.name}">
+          <h2 class="service-text-red">${service.name}</h2>
+          <p>${service.description}</p>
+          <a href="${service.link}"><span>Read More</span></a>
+        </div>
+      `;
+      servicesContainer.appendChild(serviceCard);
+    });
+  } catch (error) {
+    console.error("Error fetching services:", error);
+  }
+}
+
+// Function to filter services based on search input
+window.filterServices = function() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const serviceCards = document.querySelectorAll('.card');
+
+  serviceCards.forEach(card => {
+    const title = card.querySelector('.service-text-red').textContent.toLowerCase();
+
+    // If the query is empty, show all cards. Otherwise, filter based on the query.
+    card.style.display = query === '' || title.includes(query) ? '' : 'none';
+  });
+};
+
+// Fetch services on page load
+document.addEventListener('DOMContentLoaded', fetchServices);
+
+
+// Load services when the page loads
+document.addEventListener('DOMContentLoaded', fetchServices);
+
+
+// Function to display all services
+async function displayServices() {
+  const servicesCollection = collection(db, "services");
+  const servicesSnapshot = await getDocs(servicesCollection);
+  const servicesTableBody = document.getElementById("servicesTableBody");
+  servicesTableBody.innerHTML = ""; // Clear the table body
+
+  servicesSnapshot.forEach(doc => {
+    const service = doc.data();
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><img src="../${service.image}" alt="${service.name}" width="60"></td>
+      <td>${service.name}</td>
+      <td>${service.description}</td>
+      <td><a href="../${service.link}" target="_blank">View</a></td>
+      <td>
+        <button onclick="deleteService('${doc.id}')">Delete</button>
+      </td>
+    `;
+    servicesTableBody.appendChild(row);
+  });
+}
+
+
+
+// Function to delete a service
+window.deleteService = async function(id) {
+  if (confirm("Are you sure you want to delete this service?")) {
+    await deleteDoc(doc(db, "services", id));
+    alert("Service deleted successfully!");
+    displayServices(); // Refresh the list
+  }
+};
+
+// Load services on page load
+window.onload = displayServices;
