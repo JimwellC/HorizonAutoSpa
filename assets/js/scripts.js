@@ -224,18 +224,18 @@ document.addEventListener('click', function(event) {
       let mockupURL = "";
   
       if (method === "email") {
-        mockupURL = "/assets/images/email-mockup.png"; // Replace with actual path
+        mockupURL = "./assets/images/email-mockup.png"; // Replace with actual path
       } else if (method === "social-media") {
         const platform = document.getElementById("platform").value;
         switch (platform) {
           case "facebook":
-            mockupURL = "/assets/images/facebook-mockup.png";
+            mockupURL = "./assets/images/facebook-mockup.png";
             break;
           case "instagram":
-            mockupURL = "/assets/images/instagram-mockup.png";
+            mockupURL = "./assets/images/instagram-mockup.png";
             break;
           case "twitter":
-            mockupURL = "/assets/images/twitter-mockup.png";
+            mockupURL = "./assets/images/twitter-mockup.png";
             break;
           default:
             alert("Please select a social media platform.");
