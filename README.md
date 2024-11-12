@@ -10,7 +10,7 @@ If you don’t want to create an account, you can continue as Guest.
 
 Step 2: Logging In:
 After signing up, you will be redirected to Login Page, enter your registered email address and password on the login page.
-Click the “Login” button
+Click the “Login” button. Note: Do Not press enter, directly click the "Login" Button
 If you don’t have an account, go back to Sign-up page.
 
 Step 3: Explore our website:
